@@ -1,11 +1,15 @@
 import * as functions from "firebase-functions";
 import express from "express";
 import cors from "cors";
-import mediaMatchupRouter from "./routes/mediaMatchupRouter";
+import MatchupRouter from "./routes/MatchupRouter";
+import UserRouter from "./routes/UserRouter";
+import DailyMatchupRouter from "./routes/DailyMatchupRouter";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use("/mediamatchup", mediaMatchupRouter);
+app.use("/matchups", MatchupRouter);
+app.use("/users", UserRouter);
+app.use("/dailymatchups", DailyMatchupRouter);
 
 export const api = functions.https.onRequest(app);
