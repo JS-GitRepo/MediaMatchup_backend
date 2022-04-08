@@ -10,10 +10,10 @@ const errorResponse = (error: any, res: any) => {
 
 DailyMatchupRouter.get("/", async (req, res) => {
   try {
-    const { uid } = req.query;
+    const { date } = req.query;
     const client = await getClient();
     const query: any = {
-      ...(uid ? { uid: uid as string } : {}),
+      ...(date ? { date: date as string } : {}),
     };
     const results = await client
       .db()
