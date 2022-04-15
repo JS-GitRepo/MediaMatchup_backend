@@ -13,14 +13,13 @@ DailyMatchupRouter.get("/", async (req, res) => {
     const { date } = req.query;
     const client = await getClient();
     const query: any = {
-      ...(date ? { date: date as string } : {}),
+      ...(date ? { date: parseInt(date as string) } : {}),
     };
-    const results = await client
+    const result = await client
       .db()
       .collection<DailyMatchupCollection>("dailymatchups")
-      .find(query)
-      .toArray();
-    res.json(results);
+      .findOne(query);
+    res.json(result);
   } catch (err) {
     errorResponse(err, res);
   }
