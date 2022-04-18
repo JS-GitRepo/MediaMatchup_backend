@@ -1,6 +1,6 @@
 import express from "express";
 import { getClient } from "../db";
-import User from "../models/User";
+import UserAccount from "../models/UserAccount";
 
 const UserRouter = express.Router();
 const errorResponse = (error: any, res: any) => {
@@ -17,9 +17,8 @@ UserRouter.get("/", async (req, res) => {
     };
     const results = await client
       .db()
-      .collection<User>("users")
-      .find(query)
-      .toArray();
+      .collection<UserAccount>("users")
+      .findOne(query);
     res.json(results);
   } catch (err) {
     errorResponse(err, res);
@@ -28,9 +27,9 @@ UserRouter.get("/", async (req, res) => {
 
 UserRouter.post("/", async (req, res) => {
   try {
-    const newUser: User = req.body;
+    const newUser: UserAccount = req.body;
     const client = await getClient();
-    client.db().collection<User>("users").insertOne(newUser);
+    client.db().collection<UserAccount>("users").insertOne(newUser);
     res.status(200).json(newUser);
   } catch (err) {
     errorResponse(err, res);
