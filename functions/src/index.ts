@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/matchups", MatchupRouter);
-app.use("/users", UserRouter);
+app.use("/user", UserRouter);
 app.use("/dailymatchups", DailyMatchupRouter);
 
 export const api = functions.https.onRequest(app);
