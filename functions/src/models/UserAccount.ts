@@ -7,4 +7,6 @@ export default interface UserAccount {
   email: string;
   friends?: [{}];
   favorites?: [{}];
+  dailyMatchupsDate?: number;
+  dailyMatchupsIndex?: number;
 }
