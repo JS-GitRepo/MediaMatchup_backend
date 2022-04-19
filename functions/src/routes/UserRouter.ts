@@ -36,4 +36,19 @@ UserRouter.post("/", async (req, res) => {
   }
 });
 
+UserRouter.put("/:uid", async (req, res) => {
+  try {
+    const currentUID = req.params.uid as string;
+    const updateParams = req.body;
+    const client = await getClient();
+    client
+      .db()
+      .collection<UserAccount>("users")
+      .updateOne({ uid: currentUID }, { $set: updateParams });
+    res.status(200).json(updateParams);
+  } catch (err) {
+    errorResponse(err, res);
+  }
+});
+
 export default UserRouter;
