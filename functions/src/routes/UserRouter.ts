@@ -10,11 +10,14 @@ const errorResponse = (error: any, res: any) => {
 
 UserRouter.get("/", async (req, res) => {
   try {
-    const { uid } = req.query;
+    const { uid, email } = req.query;
     const client = await getClient();
     const query: any = {
       ...(uid ? { uid: uid as string } : {}),
+      ...(email ? { email: email as string } : {}),
     };
+    console.log(email);
+
     const results = await client
       .db()
       .collection<UserAccount>("users")
@@ -46,6 +49,21 @@ UserRouter.put("/:uid", async (req, res) => {
       .collection<UserAccount>("users")
       .updateOne({ uid: currentUID }, { $set: updateParams });
     res.status(200).json(updateParams);
+  } catch (err) {
+    errorResponse(err, res);
+  }
+});
+
+UserRouter.put("/:uid/addfriend/", async (req, res) => {
+  try {
+    const uid = req.params.uid as string;
+    const newFriend = req.body;
+    const client = await getClient();
+    client
+      .db()
+      .collection<UserAccount>("users")
+      .updateOne({ uid: uid }, { $push: { friends: newFriend } });
+    res.status(200).json(newFriend);
   } catch (err) {
     errorResponse(err, res);
   }
